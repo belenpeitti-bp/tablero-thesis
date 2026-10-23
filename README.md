@@ -2,7 +2,7 @@
 
 Página web para trabajar el índice de la tesis: un espacio por cada parte (introducción, capítulos 1 a 7 y conclusión) con preguntas de investigación, hipótesis y discusiones historiográficas; listas de bibliografía y de fuentes por capítulo; carga de los capítulos como archivos, de los que se extraen los principales actores y las partes de la tesis donde reaparecen.
 
-Todo se edita directamente en la página publicada, con contraseña.
+Todo se edita directamente en la página publicada. No hace falta contraseña; si más adelante querés una, se agrega sin tocar el código (ver «Contraseñas opcionales»).
 
 ---
 
@@ -61,8 +61,8 @@ Necesitás una cuenta gratuita en [GitHub](https://github.com) y otra en [Vercel
 ### 2. Crear el proyecto en Vercel
 
 1. En Vercel: **Add New… → Project**.
-2. Elegí el repositorio `tablero-tesis` y **Import**. Vercel reconoce que es Next.js; no cambies nada.
-3. **Deploy**. Al terminar vas a tener una dirección del tipo `tablero-tesis-xxxx.vercel.app`. Todavía falta el almacenamiento y la contraseña.
+2. Elegí el repositorio `tablero-thesis` y **Import**. Vercel reconoce que es Next.js; no cambies nada.
+3. **Deploy**. Al terminar vas a tener una dirección del tipo `tablero-thesis-xxxx.vercel.app`. Todavía falta el almacenamiento.
 
 ### 3. Conectar el almacenamiento (donde se guarda todo)
 
@@ -71,21 +71,21 @@ Necesitás una cuenta gratuita en [GitHub](https://github.com) y otra en [Vercel
 3. En el acceso elegí **Private**. Es importante: así tus capítulos y notas no quedan accesibles por enlace público.
 4. Ponele un nombre (por ejemplo `tesis`) y crealo. Confirmá que quede conectado a este proyecto (entornos Production y Preview).
 
-### 4. Definir las contraseñas
+### 4. Volver a publicar
 
-En el proyecto: **Settings → Environment Variables**. Agregá:
+El almacenamiento se aplica en la próxima publicación: **Deployments** → en la última, menú **⋯** → **Redeploy**.
 
-| Nombre | Valor | ¿Obligatoria? |
-|---|---|---|
-| `ADMIN_PASSWORD` | La contraseña para editar. Usá una larga. | Sí |
-| `VIEWER_PASSWORD` | Si la definís, **toda la página queda privada** y esta segunda contraseña permite solo leer (para compartir con tu director/a). | No |
-| `ANTHROPIC_API_KEY` | Clave de la API de Claude para la detección con IA ([platform.claude.com](https://platform.claude.com)). | No |
+Listo. Entrá a tu dirección, tocá **Editar** y empezá a cargar.
 
-### 5. Volver a publicar
+### Contraseñas opcionales
 
-Las variables se aplican en la próxima publicación: **Deployments** → en la última, menú **⋯** → **Redeploy**.
+Sin contraseñas, **cualquiera que tenga la dirección puede ver y editar** el tablero y descargar los capítulos. Si en algún momento querés restringirlo, agregá una o ambas variables en el menú lateral del proyecto, **Environment Variables** (en algunas cuentas está dentro de **Settings**), y después hacé **Redeploy**:
 
-Listo. Entrá a tu dirección, tocá **Editar**, ingresá la contraseña y empezá a cargar.
+| Nombre | Qué hace |
+|---|---|
+| `ADMIN_PASSWORD` | Hace falta esta contraseña para editar. El resto puede ver, pero no editar ni descargar los capítulos. |
+| `VIEWER_PASSWORD` | Toda la página queda privada: hace falta una contraseña para verla. Si también definiste `ADMIN_PASSWORD`, esta otra permite solo leer (útil para compartir con tu director/a). |
+| `ANTHROPIC_API_KEY` | No es una contraseña: activa la detección de actores con IA ([platform.claude.com](https://platform.claude.com)). |
 
 ### Actualizaciones futuras
 
@@ -103,8 +103,8 @@ Si más adelante cambiás algún archivo del código en GitHub, Vercel vuelve a 
 
 ### Privacidad
 
-- Los archivos de los capítulos y sus textos se guardan en almacenamiento privado y solo se descargan con contraseña.
-- Si no definís `VIEWER_PASSWORD`, cualquiera con la dirección puede **ver** el índice, preguntas, hipótesis, listas y actores (pero no descargar los capítulos ni editar). Si preferís que nada sea visible, definí `VIEWER_PASSWORD`.
+- Los archivos se guardan en almacenamiento privado: no se pueden abrir con un enlace directo, solo desde la página.
+- Sin contraseñas, la página está abierta a quien tenga la dirección (para ver, editar y descargar). Los respaldos automáticos permiten recuperar el contenido si alguien lo borra. Para cerrarla, ver «Contraseñas opcionales».
 - La página pide a los buscadores que no la indexen.
 
 ### Límites del plan gratuito de Vercel
@@ -119,7 +119,7 @@ Requiere [Node.js](https://nodejs.org) 20 o superior.
 
 ```bash
 npm install
-cp .env.example .env.local   # y escribí tu contraseña en ADMIN_PASSWORD
+cp .env.example .env.local   # opcional: contraseñas y clave de IA
 npm run dev
 ```
 

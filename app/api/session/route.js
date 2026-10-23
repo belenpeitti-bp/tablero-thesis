@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getRole, siteLocked, adminConfigured, canReadFiles } from '@/lib/server/auth';
+import { getRole, siteLocked, adminConfigured, openEditing, canReadFiles } from '@/lib/server/auth';
 import { storageMode } from '@/lib/server/storage';
 
 export const dynamic = 'force-dynamic';
@@ -10,6 +10,7 @@ export async function GET(request) {
     role,
     locked: siteLocked(),
     adminConfigured: adminConfigured(),
+    open: openEditing(),
     canReadFiles: canReadFiles(role),
     storage: storageMode(),
     ai: Boolean(process.env.ANTHROPIC_API_KEY),

@@ -8,7 +8,7 @@ import { formatDate, formatTime } from '@/lib/format';
 const OPS_INCLUDED = 2000;
 
 function LoginForm({ inline = false }) {
-  const { login, session } = useStore();
+  const { login } = useStore();
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -37,7 +37,6 @@ function LoginForm({ inline = false }) {
           {error}
         </p>
       )}
-      {session && !session.adminConfigured && !session.locked && <p className="hint">Para poder editar, definí la variable ADMIN_PASSWORD en Vercel (la guía del proyecto explica cómo).</p>}
       <button type="submit" className="btn" disabled={busy || !password}>
         {busy ? 'Entrando…' : 'Entrar'}
       </button>
@@ -116,9 +115,11 @@ function MoreMenu() {
           </p>
         )}
         {data.meta?.lastBackupAt && <p className="menu-note">Último respaldo automático: {formatDate(data.meta.lastBackupAt, true)}.</p>}
-        <button type="button" className="menu-item" onClick={logout}>
-          Cerrar sesión
-        </button>
+        {!(session?.open && !session?.locked) && (
+          <button type="button" className="menu-item" onClick={logout}>
+            Cerrar sesión
+          </button>
+        )}
       </div>
     </details>
   );

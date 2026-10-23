@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { roleForPassword, setSessionCookie, adminConfigured } from '@/lib/server/auth';
+import { roleForPassword, setSessionCookie } from '@/lib/server/auth';
 
 export async function POST(request) {
   let password = '';
@@ -9,8 +9,7 @@ export async function POST(request) {
   const role = roleForPassword(password);
   if (!role) {
     await new Promise((r) => setTimeout(r, 700)); // frena intentos repetidos
-    const message = adminConfigured() ? 'La contraseña no es correcta.' : 'Todavía no se configuró ADMIN_PASSWORD en Vercel.';
-    return NextResponse.json({ error: message }, { status: 401 });
+    return NextResponse.json({ error: 'La contraseña no es correcta.' }, { status: 401 });
   }
   const res = NextResponse.json({ role });
   setSessionCookie(res, role);
